@@ -18,6 +18,9 @@ class SiteProtection
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        if($request->method() == 'POST' && config('site-protection.exclude_post') == true)
+            return $next($request);
+        
         $password = config('site-protection.passwords');
 
         if (empty($password)) {
